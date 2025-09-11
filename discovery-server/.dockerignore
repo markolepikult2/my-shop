@@ -1,0 +1,11 @@
+# Keep Docker context small for discovery-server image
+.git
+.idea
+.vscode
+build
+.target
+.gradle
+out
+node_modules
+*.iml
+pom.xml

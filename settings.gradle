@@ -1,0 +1,4 @@
+rootProject.name = 'my-shop'
+include ':discovery-server'
+include ':catalog-service'
+include ':api-gateway'

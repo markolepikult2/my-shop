@@ -1,0 +1,13 @@
+# Global Docker ignore for project
+**/.git
+**/.idea
+**/.vscode
+**/build
+**/target
+**/.gradle
+**/out
+**/node_modules
+**/*.iml
+Dockerfile
+README.md
+HELP.md

@@ -1,0 +1,62 @@
+plugins {
+    id 'base'
+}
+
+// This subproject hosts an Angular application. We use Gradle to orchestrate Node/npm commands.
+
+description = 'frontend-angular'
+
+def isWindows = System.getProperty('os.name').toLowerCase().contains('win')
+
+def npmCommand = isWindows ? 'npm.cmd' : 'npm'
+
+def ngCommand = isWindows ? 'ng.cmd' : 'ng'
+
+ext {
+    // Directory where the Angular project sources live
+    angularDir = projectDir
+    buildDirAngular = new File(project.buildDir, 'angular')
+    distDir = new File(angularDir, 'dist')
+}
+
+tasks.register('npmInstall', Exec) {
+    group = 'frontend'
+    description = 'Run npm install in the Angular project'
+    workingDir = file(ext.angularDir)
+    commandLine npmCommand, 'install'
+    inputs.file file('package.json')
+    inputs.file file('package-lock.json')
+    outputs.dir file('node_modules')
+}
+
+tasks.register('ngBuild', Exec) {
+    group = 'frontend'
+    description = 'Build Angular project for production'
+    dependsOn tasks.named('npmInstall')
+    workingDir = file(ext.angularDir)
+    commandLine npxCommand(), 'ng', 'build', '--configuration', 'production'
+    inputs.dir file('src')
+    inputs.file file('angular.json')
+    outputs.dir file('dist')
+}
+
+// Helper to use npx in cross-platform manner
+String npxCommand() {
+    return isWindows ? 'npx.cmd' : 'npx'
+}
+
+// Bridge to root `build` so CI can call `gradlew :frontend-angular:build`
+tasks.register('build') {
+    group = 'build'
+    description = 'Build the Angular project (delegates to ng build)'
+    dependsOn tasks.named('ngBuild')
+}
+
+// Clean task to delete Angular dist
+tasks.register('clean') {
+    group = 'build'
+    description = 'Clean Angular build output'
+    doLast {
+        delete file('dist')
+    }
+}
