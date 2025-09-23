@@ -1,0 +1,24 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #111827; /* gray-900 */
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 1.125rem;
+}
+.brand:focus { outline: 2px solid #60a5fa; outline-offset: 2px; }

@@ -1,0 +1,5 @@
+.product-card{border:1px solid #e3e3e3;border-radius:8px;padding:12px;margin:8px 0;background:#fff}
+.product-header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.product-name{margin:0;font-size:1.1rem}
+.product-price{font-weight:600;color:#2c7}
+.product-description{color:#555;margin:8px 0 0}

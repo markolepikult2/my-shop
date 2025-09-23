@@ -11,7 +11,7 @@ spring:
     password: ""
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: false
     properties:
       hibernate:
@@ -19,6 +19,8 @@ spring:
   h2:
     console:
       enabled: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 # Eureka client configuration
 # Ensure discovery-server is running at localhost:8761

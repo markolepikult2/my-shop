@@ -12,17 +12,14 @@ def npmCommand = isWindows ? 'npm.cmd' : 'npm'
 
 def ngCommand = isWindows ? 'ng.cmd' : 'ng'
 
-ext {
-    // Directory where the Angular project sources live
-    angularDir = projectDir
-    buildDirAngular = new File(project.buildDir, 'angular')
-    distDir = new File(angularDir, 'dist')
-}
+def npxCmd = isWindows ? 'npx.cmd' : 'npx'
+
+// Using project.layout.projectDirectory for workingDir, avoiding extra properties
 
 tasks.register('npmInstall', Exec) {
     group = 'frontend'
     description = 'Run npm install in the Angular project'
-    workingDir = file(ext.angularDir)
+    workingDir = project.layout.projectDirectory.asFile
     commandLine npmCommand, 'install'
     inputs.file file('package.json')
     inputs.file file('package-lock.json')
@@ -33,29 +30,36 @@ tasks.register('ngBuild', Exec) {
     group = 'frontend'
     description = 'Build Angular project for production'
     dependsOn tasks.named('npmInstall')
-    workingDir = file(ext.angularDir)
-    commandLine npxCommand(), 'ng', 'build', '--configuration', 'production'
-    inputs.dir file('src')
+    workingDir = project.layout.projectDirectory.asFile
+    commandLine npxCmd, 'ng', 'build', '--configuration', 'production'
+    inputs.dir file('my-app/src')
+    inputs.dir file('my-app/public')
     inputs.file file('angular.json')
     outputs.dir file('dist')
 }
 
-// Helper to use npx in cross-platform manner
-String npxCommand() {
-    return isWindows ? 'npx.cmd' : 'npx'
+// Helper variable to use npx in cross-platform manner
+
+// Task to scaffold a new Angular application within this workspace (use instead of `ng new`)
+tasks.register('ngGenerateApp', Exec) {
+    group = 'frontend'
+    description = 'Generate a new Angular application inside the existing workspace: -PappName=my-new-app'
+    dependsOn tasks.named('npmInstall')
+    workingDir = project.layout.projectDirectory.asFile
+    def appName = project.findProperty('appName') ?: ''
+    if (!appName) {
+        throw new GradleException("Please provide -PappName=<name> to generate a new Angular application inside the workspace.")
+    }
+    commandLine npxCmd, 'ng', 'generate', 'application', appName, '--standalone'
 }
 
-// Bridge to root `build` so CI can call `gradlew :frontend-angular:build`
-tasks.register('build') {
-    group = 'build'
-    description = 'Build the Angular project (delegates to ng build)'
+// Hook into standard build lifecycle so `gradlew :frontend-angular:build` works
+tasks.named('build') {
     dependsOn tasks.named('ngBuild')
 }
 
-// Clean task to delete Angular dist
-tasks.register('clean') {
-    group = 'build'
-    description = 'Clean Angular build output'
+// Ensure `clean` also removes Angular dist
+tasks.named('clean') {
     doLast {
         delete file('dist')
     }
