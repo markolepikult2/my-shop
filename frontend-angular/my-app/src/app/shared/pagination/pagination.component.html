@@ -1,0 +1,5 @@
+<div class="pagination-controls" *ngIf="totalPages > 1">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="first">Previous</button>
+  <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+  <button (click)="goToPage(currentPage + 1)" [disabled]="last">Next</button>
+</div>
