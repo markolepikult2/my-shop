@@ -5,10 +5,20 @@
   </div>
 
   <p *ngIf="loading">Loading...</p>
-  <p *ngIf="!loading && productList.empty">No products available.</p>
+  <p *ngIf="!loading && productList?.empty">No products available.</p>
   <p class="error" *ngIf="error">{{ error }}</p>
 
-  <div *ngIf="!loading && productList.numberOfElements > 0" class="product-grid">
-    <app-product *ngFor="let p of productList.content" [product]="p"></app-product>
+  <div *ngIf="!loading && productList?.numberOfElements > 0">
+    <div class="product-grid">
+      <app-product *ngFor="let p of productList.content" [product]="p"></app-product>
+    </div>
+
+    <app-pagination
+      [currentPage]="productList.number"
+      [totalPages]="productList.totalPages"
+      [first]="productList.first"
+      [last]="productList.last"
+      (pageChange)="fetchProducts($event)"
+    ></app-pagination>
   </div>
 </section>
