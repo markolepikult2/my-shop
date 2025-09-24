@@ -1,10 +1,14 @@
 <section class="product-list">
-  <h2>Products</h2>
+  <div class="list-header">
+    <h2>Products</h2>
+    <a routerLink="/products/add" class="add-button">Add Product</a>
+  </div>
+
   <p *ngIf="loading">Loading...</p>
   <p *ngIf="!loading && productList.empty">No products available.</p>
   <p class="error" *ngIf="error">{{ error }}</p>
-  <div *ngIf="!loading && productList.numberOfElements > 0">
+
+  <div *ngIf="!loading && productList.numberOfElements > 0" class="product-grid">
     <app-product *ngFor="let p of productList.content" [product]="p"></app-product>
   </div>
-
 </section>

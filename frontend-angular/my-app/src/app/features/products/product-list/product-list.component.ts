@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ProductComponent } from '../product/product.component';
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
-import {ProductListModel} from "../models/product-list.model";
+import { ProductListModel } from '../models/product-list.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, ProductComponent],
+  imports: [CommonModule, HttpClientModule, ProductComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })

@@ -6,15 +6,18 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-        server:
-          webflux:
-            routes:
-              - id: products-route
-                uri: lb://catalog-service
-                predicates:
-                  - Path=/products/**
-                filters:
-                  - StripPrefix=0
+      server:
+        webflux:
+          routes:
+            - id: products-browse-route
+              uri: lb://catalog-service
+              predicates:
+                - Path=/products/**
+
+            - id: products-admin-route
+              uri: lb://catalog-service
+              predicates:
+                - Path=/admin/product
     discovery:
       enabled: true
 
