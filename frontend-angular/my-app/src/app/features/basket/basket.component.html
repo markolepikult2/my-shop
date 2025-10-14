@@ -1,0 +1,37 @@
+<div class="basket-container">
+  <h2>Your Shopping Basket</h2>
+
+  <div *ngIf="loading" class="loading-indicator">Loading basket...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && fullBasketItems.length > 0">
+    <table class="basket-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of fullBasketItems">
+          <td>{{ item.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price | currency }}</td>
+          <td>{{ (item.price * item.quantity) | currency }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="total-label">Grand Total:</td>
+          <td class="total-price">{{ totalPrice | currency }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && !error && fullBasketItems.length === 0" class="empty-basket">
+    <p>Your basket is empty.</p>
+  </div>
+</div>

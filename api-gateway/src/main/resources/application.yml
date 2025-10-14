@@ -18,6 +18,11 @@ spring:
               uri: lb://catalog-service
               predicates:
                 - Path=/admin/product
+
+            - id: basket-route
+              uri: lb://basket-service
+              predicates:
+                - Path=/basket/**
     discovery:
       enabled: true
 

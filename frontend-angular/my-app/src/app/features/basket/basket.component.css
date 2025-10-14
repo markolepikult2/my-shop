@@ -1,0 +1,51 @@
+.basket-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.loading-indicator, .empty-basket, .error-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error-message {
+  color: #b00;
+}
+
+.basket-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.basket-table th, .basket-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.basket-table thead th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+}
+
+.basket-table tfoot .total-label {
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.basket-table tfoot .total-price {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
