@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Catalog Service API
+  description: API for managing the product catalog.
+  version: 1.0.0
+
+paths:
+  /products:
+    get:
+      summary: Get a paginated list of products
+      description: Retrieves a list of products, supporting pagination via standard Spring Data Pageable parameters.
+      operationId: getAllProducts
+      parameters:
+        - name: page
+          in: query
+          description: The page number to retrieve (0-indexed).
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The number of items per page.
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sorting criteria in the format `property,(asc|desc)`. Default is unsorted.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A paginated list of products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPage'
+  /products/list:
+    get:
+      summary: Get a paginated list of products
+      description: Retrieves a list of products, supporting pagination via standard Spring Data Pageable parameters.
+      operationId: getAllProducts
+      parameters:
+        - name: ids
+          in: query
+          description: Array of product Id's.
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: A paginated list of products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPage'
+  /admin/product:
+    post:
+      summary: Add a new product to the catalog
+      description: Creates a new product with the given details.
+      operationId: addProduct
+      requestBody:
+        description: The product to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductCommand'
+      responses:
+        '201':
+          description: Product created successfully.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                description: The unique ID of the newly created product.
+                example: 101
+
+components:
+  schemas:
+    CreateProductCommand:
+      type: object
+      description: Command object for creating a new product.
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+          description: The display name of the product.
+          example: "Super Widget"
+        description:
+          type: string
+          description: A detailed description of the product.
+          example: "An amazing widget that will solve all your problems."
+        price:
+          type: number
+          format: float
+          description: The retail price of the product.
+          example: 29.99
+
+    ProductDto:
+      type: object
+      description: A product data transfer object.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The unique identifier for the product.
+          example: 101
+        name:
+          type: string
+          description: The display name of the product.
+          example: "Super Widget"
+        description:
+          type: string
+          description: A detailed description of the product.
+          example: "An amazing widget that will solve all your problems."
+        price:
+          type: number
+          format: float
+          description: The retail price of the product.
+          example: 29.99
+
+    ProductList:
+      type: object
+      description: List of ProductDto
+      properties:
+        productList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDto'
+
+    ProductPage:
+      type: object
+      description: A paginated response object for products, mirroring Spring's Page object.
+      properties:
+        totalPages:
+          type: integer
+          description: The total number of pages available.
+        totalElements:
+          type: integer
+          format: int64
+          description: The total number of products available across all pages.
+        size:
+          type: integer
+          description: The number of items per page.
+        number:
+          type: integer
+          description: The current page number (0-indexed).
+        numberOfElements:
+          type: integer
+          description: The number of products on the current page.
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDto'
+        first:
+          type: boolean
+          description: True if this is the first page.
+        last:
+          type: boolean
+          description: True if this is the last page.
+        empty:
+          type: boolean
+          description: True if the content for this page is empty.
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        sort:
+          $ref: '#/components/schemas/SortObject'
+
+    PageableObject:
+      type: object
+      description: Details about the pagination request.
+      properties:
+        pageNumber:
+          type: integer
+        pageSize:
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        offset:
+          type: integer
+          format: int64
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+
+    SortObject:
+      type: object
+      description: Details about the sorting request.
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
