@@ -1,5 +1,54 @@
-.product-card{border:1px solid #e3e3e3;border-radius:8px;padding:12px;margin:8px 0;background:#fff}
-.product-header{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.product-name{margin:0;font-size:1.1rem}
-.product-price{font-weight:600;color:#2c7}
-.product-description{color:#555;margin:8px 0 0}
+.product-card {
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensure cards in a grid have same height */
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-name {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.product-price {
+  font-weight: 600;
+  color: #007bff; /* Changed to a more standard blue */
+}
+
+.product-description {
+  color: #555;
+  margin: 8px 0;
+  flex-grow: 1; /* Allow description to take up available space */
+}
+
+.product-actions {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.product-actions button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product-actions button:hover {
+  background-color: #0056b3;
+}

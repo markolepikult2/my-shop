@@ -4,4 +4,7 @@
     <div class="product-price" *ngIf="product?.price != null">{{ product?.price | currency:'USD' }}</div>
   </div>
   <p class="product-description" *ngIf="product?.description">{{ product?.description }}</p>
+  <div class="product-actions">
+    <button (click)="addToCart()">Add to Cart</button>
+  </div>
 </div>
