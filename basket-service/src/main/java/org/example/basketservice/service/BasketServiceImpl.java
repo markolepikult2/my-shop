@@ -3,6 +3,7 @@ package org.example.basketservice.service;
 import org.example.basketservice.model.Basket;
 import org.example.basketservice.model.Item;
 import org.example.basketservice.repository.BasketRepository;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -46,4 +47,15 @@ public class BasketServiceImpl implements BasketService {
         Basket updatedBasket = basketRepository.save(basket);
         return updatedBasket.getItems();
     }
+
+    public List<Item> deleteItemFromBasket(String userId, Integer productId) {
+        Basket basket = basketRepository.findById(userId)
+                .orElse(new Basket(userId));
+
+        basket.getItems().removeIf(item -> item.getProductId().equals(productId));
+        basketRepository.save(basket);
+        return basket.getItems();
+    }
+
+
 }

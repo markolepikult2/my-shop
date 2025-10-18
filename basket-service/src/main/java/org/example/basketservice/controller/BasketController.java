@@ -29,4 +29,10 @@ public class BasketController {
         List<Item> updatedItems = basketService.addItemToBasket(userId, item);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedItems);
     }
+
+    @DeleteMapping("/items")
+    public ResponseEntity<List<Item>> deleteItemFromBasket(@RequestHeader("X-User-Id") String userId, @RequestParam Integer productId) {
+        List<Item> updatedItems = basketService.deleteItemFromBasket(userId, productId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedItems);
+    }
 }

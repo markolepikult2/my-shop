@@ -21,4 +21,13 @@ public interface BasketService {
      * @return The updated list of items in the basket.
      */
     List<Item> addItemToBasket(String userId, Item item);
+
+    /**
+     * Deletes item from basket.
+     * @param userId The ID of the user.
+     * @param productId The ID of the product.
+     * @return True when delete was successful.
+     */
+    List<Item> deleteItemFromBasket(String userId, Integer productId);
+
 }
