@@ -85,7 +85,7 @@ export class BasketComponent implements OnInit {
         }, 0);
     }
 
-    deleteFromBasket(productId: number): void {
+    public deleteFromBasket(productId: number): void {
         const headers = new HttpHeaders({'X-User-Id': 'test-user'});
 
         this.http.delete(`http://localhost:8080/basket/items?productId=${productId}`, {headers})
